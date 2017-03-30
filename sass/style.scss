@@ -4,6 +4,12 @@ body {
     background-attachment: fixed;
     background-position: center;
     font-family: 'Raleway', sans-serif;
+
+-webkit-background-size:cover;
+-moz-background-size:cover;
+-o-background-size:cover;
+background-size:cover;
+background-position:center;
    
     
 }
