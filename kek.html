@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Huset Esbjerg</title>
+  <title>@Umbraco.Field("test", altFieldAlias: "pageTitle")</title>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <!-- Viewport Meta Tag -->
@@ -15,7 +15,9 @@
 <script src="https://use.fontawesome.com/83873661dc.js"></script>
 </head>
 <body>
-  <!-- --FACEBOOK PAGE  WHICH IS ON RIGHT SIDE- -- >
+   <!--	<img class="bg" src="@Umbraco.Media(CurrentPage.Logo).Url"/> -->
+	
+  <!-- --FACEBOOK PAGE  WHICH IS ON RIGHT SIDE- -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -24,7 +26,8 @@
   js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8&appId=1020731131270541";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-  <!-- ------ HEADER --------- -->
+      
+       <!-- ------ HEADER --------- -->
  
 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -61,7 +64,7 @@
   
 
 </div>
-<a href="index.html">  <img class="logo-pos" src="images/logo.png" class="img-fluid" alt="Esbjerg Huset logo"></a>
+<a href="index.html">  <img class="logo-pos img-fluid" src="@Umbraco.Media(CurrentPage.Logo).Url" alt="Esbjerg Huset logo"></a>
  <nav class="navbar sticky-top navbar-toggleable-md navbar-inverse bg-primary spalva ">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -106,9 +109,8 @@
     <div style="height:35px;"></div>
  <div class="jumbotron jumbotron-fluid white">
   <div class="container">
-    <h1 class="display-3">Huset Esbjerg</h1>
-    <p class="lead">The students ’house’ is Esbjergs place for students and culture located right next to the main library in the center of Esbjerg.
-                    It's ideal meeting point for the students of Esbjerg with its many different activities and concerts. </p>
+    <h1 class="display-3">@Umbraco.Field("introductionHeader")</h1>
+    <p class="lead">@Umbraco.Field("text")</p>
   </div>
 </div>
 
@@ -149,12 +151,26 @@ Huset Esbjerg seeks new volunteers to all the daily tasks and maybe you have an 
      </center>
      <div class="row">
        <div class="col-12">
-        <a href="https://www.easv.dk" target="_blank"> <img class="logoz" src="images/easv.png" alt="Erhvervsakademi logo"></a>
-        <a href="http://www.sdu.dk/" target="_blank"> <img class="logoz mx-md-3 px-md-1" src="images/sdu.png" alt="SDU logo"></a>
-        <a href="http://www.kunst.dk/" target="_blank"> <img class="logoz mx-md-3 px-md-1" src="images/statens.png" alt="Statens Kunstfond logo"></a>
-        <a href="http://studiebyenesbjerg.dk/" target="_blank"> <img class="logoz mx-md-3 px-md-1" src="images/studie2.png" alt="Studiebyen esbjerg logo"></a>
-        <a href="https://www.ucsyd.dk/forside/" target="_blank"> <img class="logoz mx-md-3 px-md-1" src="images/university.png" alt="Syddanmark college logo"></a>
-       </div>
+		
+           @if (Model.Content.HasValue("collaborators"))
+           {
+               var imagesList = Model.Content.GetPropertyValue<string>("collaborators").Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+               var imagesCollection = Umbraco.TypedMedia(imagesList).Where(x => x != null);
+
+               foreach (var imageItem in imagesCollection)
+               {
+                   var link = imageItem.GetPropertyValue("imageLink");
+                   var upload = imageItem.GetPropertyValue("imageUpload");
+                   var alt = imageItem.GetPropertyValue("alt");
+                   <a target="_blank" href="@link">
+                       
+                       <img class="logoz mx-md-3 px-md-1" alt="@alt" src="@upload" />
+                   </a>
+               }
+           }
+
+			</div>
+			
      </div>
   </div>
 </div>
@@ -164,7 +180,7 @@ Huset Esbjerg seeks new volunteers to all the daily tasks and maybe you have an 
   <div class="container">
     <div class="row">
       <div class="col-md-4 col-sm-4 footerleft">
-        <div class="logofooter"> <a href="index.html">  <img class="d-block img-fluid cover2" src="images/logo.png" alt="Huset Esbjerg"> </a>
+        <div class="logofooter"> <a href="index.html">  <img class="d-block img-fluid cover2" src="@Umbraco.Media(CurrentPage.footerLogo).Url" alt="Huset Esbjerg"> </a>
 </div>
         <p>HUSET ESBJERG</p>
         <p><i class="fa fa-map-pin"></i>Finsensgade 1 
@@ -206,31 +222,8 @@ Huset Esbjerg seeks new volunteers to all the daily tasks and maybe you have an 
     </div>
   </div>
 
-<!--Copyright start from here-->
-  
-
-    <div class="col-md-12">
-      <div class="copyright">
-      <p class="mx-3">© 2017 - All Rights with Esbjerg Huset</p>
-    </div>
- </div>
-
-</footer>
 
 
 
 
 
-
-  
-  <!-- JavaScript: placed at the end of the document so the pages load faster -->
-  <!-- jQuery library -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js" integrity="sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY" crossorigin="anonymous"></script>
-  <!-- Tether -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js" integrity="sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB" crossorigin="anonymous"></script>
-  <!-- Latest compiled JavaScript -->
-
-  <script src="js/bootstrap.min.js"></script>
- 
-</body>
-</html>
